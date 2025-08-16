@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="share_your_story">Ayo critakno critamu!</string>
+    <string name="enter_your_story_description">Lebokno deskripsi critamu</string>
+    <string name="choose_from_gallery">Pilih saka Galeri</string>
+    <string name="take_photo">Jupuk Foto</string>
+    <string name="image_preview">Pratinjau Gambar</string>
+    <string name="upload_story">Unggah Crita</string>
+    <string name="email">Email</string>
+    <string name="email_placeholder">hai@gmail.com</string>
+    <string name="password">Tembung Sandi</string>
+    <string name="password_placeholder">tembung sandi</string>
+    <string name="login">Mlebu</string>
+    <string name="belum_punya_akun">Durung duwe akun?</string>
+    <string name="daftar">Daftar</string>
+    <string name="nama">Jeneng</string>
+    <string name="nama_placeholder">Kusuma</string>
+    <string name="sudah_punya_akun">Wis duwe akun?</string>
+    <string name="add_story">Tambah crita</string>
+    <string name="description">Deskripsi</string>
+    <string name="logout">Metu</string>
+    <string name="story_image">Gambar crita</string>
+    <string name="story_title">Judul Crita</string>
+    <string name="halo_user">Halo User</string>
+    <string name="retry">Coba maneh</string>"
+</resources>

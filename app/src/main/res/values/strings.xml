@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">StoryApp</string>
+    <string name="share_your_story">Share your story!</string>
+    <string name="enter_your_story_description">Enter your story description</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="upload_story">Upload Story</string>
+    <string name="email">Email</string>
+    <string name="email_placeholder">hai@gmail.com</string>
+    <string name="password">Password</string>
+    <string name="password_placeholder">password</string>
+    <string name="login">Login</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="daftar">Daftar</string>
+    <string name="nama">Nama</string>
+    <string name="nama_placeholder">Kusuma</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="add_story">add story</string>
+    <string name="description">Description</string>
+    <string name="logout">Logout</string>
+    <string name="story_image">story image</string>
+    <string name="story_title">Story Title</string>
+    <string name="halo_user">Hello User</string>
+    <string name="retry">Retry</string>"
+</resources>
