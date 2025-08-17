@@ -67,10 +67,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeState() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.stories.collectLatest {
-                adapter.submitData(it)
-            }
+
+        viewModel.stories.observe(viewLifecycleOwner) { pagingData ->
+            adapter.submitData(lifecycle, pagingData)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -81,11 +80,17 @@ class HomeFragment : Fragment() {
                         binding.progressBar.visibility = View.VISIBLE
                         binding.btnRetry.visibility = View.GONE
                     }
+
                     is LoadState.Error -> {
                         binding.progressBar.visibility = View.GONE
                         binding.btnRetry.visibility = View.VISIBLE
-                        Toast.makeText(requireContext(), refreshState.error.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            refreshState.error.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
+
                     else -> {
                         binding.progressBar.visibility = View.GONE
                         binding.btnRetry.visibility = View.GONE

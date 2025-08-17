@@ -1,9 +1,14 @@
 package com.example.storyapp.data.network.repository
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.liveData
+import com.example.storyapp.data.local.StoryDatabase
+import com.example.storyapp.data.local.entity.StoryEntity
 import com.example.storyapp.data.network.api.ApiService
 import com.example.storyapp.data.network.model.LoginRequest
 import com.example.storyapp.data.network.model.LoginResult
@@ -23,21 +28,25 @@ import javax.inject.Inject
 
 class StoryRepository @Inject constructor(
     private val apiService: ApiService,
+    private val storyDatabase: StoryDatabase,
     @ApplicationContext private val context: Context
 ) {
 
-    fun getAllStory(): Flow<PagingData<Story>> {
+    @OptIn(ExperimentalPagingApi::class)
+    fun getAllStory(): LiveData<PagingData<StoryEntity>> {
        return Pager(
            config = PagingConfig(
                pageSize = 5
            ),
+           remoteMediator = StoryRemoteMediator(
+               apiService = apiService,
+               context = context,
+               database = storyDatabase
+           ),
            pagingSourceFactory = {
-               StoryPagingSource(
-                   apiService = apiService,
-                   context = context
-               )
+                storyDatabase.storyDao().getAllStories()
            }
-       ).flow
+       ).liveData
     }
 
     fun getDetailStory(id: String): Flow<Resource<Story>> {

@@ -7,20 +7,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
-import com.example.storyapp.data.network.model.Story
+import com.example.storyapp.data.local.entity.StoryEntity
 import com.example.storyapp.databinding.StoryCardBinding
 
 class StoryAdapter :
-    PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(diffCallback = differCallback) {
+    PagingDataAdapter<StoryEntity, StoryAdapter.StoryViewHolder>(diffCallback = differCallback) {
 
-    private var onItemClickCallback: ((Story) -> Unit)? = null
-    fun setOnItemClickCallback(callback: (Story) -> Unit) {
+    private var onItemClickCallback: ((StoryEntity) -> Unit)? = null
+    fun setOnItemClickCallback(callback: (StoryEntity) -> Unit) {
         onItemClickCallback = callback
     }
 
     inner class StoryViewHolder(private val binding: StoryCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(story: Story) {
+        fun bind(story: StoryEntity) {
             with(binding) {
                 tvTitle.text = story.name
                 ivStory.load(story.photoUrl) {
@@ -47,12 +47,12 @@ class StoryAdapter :
     }
 
     companion object {
-        private val differCallback = object : DiffUtil.ItemCallback<Story>() {
-            override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
+         val differCallback = object : DiffUtil.ItemCallback<StoryEntity>() {
+            override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
+            override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
                 return oldItem == newItem
             }
         }
