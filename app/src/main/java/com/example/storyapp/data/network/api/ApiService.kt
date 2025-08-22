@@ -27,6 +27,12 @@ interface ApiService {
         @Query("size") size: Int
     ): Response<ListStoryResponse>
 
+    @GET("stories")
+    suspend fun getAllStoryWithMaps(
+        @Header("authorization") token: String,
+        @Query("location") location : Int = 1
+    ): Response<ListStoryResponse>
+
     @GET("stories/{id}")
     suspend fun getDetailStory(
         @Header("authorization") token: String,
@@ -54,6 +60,6 @@ interface ApiService {
     ): Response<ApiResponse>
 
     companion object {
-        const val BASE_URL = "https://story-api.dicoding.dev/v1/"
+         var BASE_URL = "https://story-api.dicoding.dev/v1/"
     }
 }

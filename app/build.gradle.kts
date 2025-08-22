@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidx.navigation.saveargs)
     id("com.google.devtools.ksp")
     kotlin("plugin.serialization") version "2.0.21"
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -40,6 +41,10 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
+    }
+    testOptions{
+        animationsDisabled = true
     }
 }
 
@@ -50,9 +55,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.maps)
+    implementation(libs.androidx.espresso.contrib)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.play.services.location)
 
     //navigaton
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -99,5 +108,9 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test) //TestDispatcher
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+    debugImplementation(libs.androidx.fragment.testing)
+    androidTestImplementation(libs.mockwebserver)
+    androidTestImplementation(libs.okhttp3.okhttp.tls)
+    implementation(libs.androidx.espresso.idling.resource)
 
 }

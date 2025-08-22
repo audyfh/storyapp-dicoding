@@ -42,13 +42,13 @@ object DataDummy{
         val listStory : MutableList<StoryEntity> = arrayListOf()
         for (i in 1..10){
             val story = StoryEntity(
-                id = "story-FvU4u0Vp2S3PMsFg",
+                id = "story-FvU4u0Vp2S3PMsFg$i",
                 photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1641623658",
                 createdAt = "2022-01-08T06:34:18.598Z",
-                description = "Lorem ipsum",
+                description = "Lorem ipsum $i",
                 lat = 12.0,
                 lon = 12.0,
-                name = "UserTest"
+                name = "UserTest $i"
             )
             listStory.add(story)
         }

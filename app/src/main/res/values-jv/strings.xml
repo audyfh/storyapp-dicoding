@@ -23,5 +23,9 @@
     <string name="story_image">Gambar crita</string>
     <string name="story_title">Judul Crita</string>
     <string name="halo_user">Halo User</string>
-    <string name="retry">Coba maneh</string>"
+    <string name="retry">Coba maneh</string>
+    <string name="add_location">Tambah panggonan</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="view_map">Ndelok Map</string>
+    <string name="maps_error">Something wrong, try again later</string>"
 </resources>

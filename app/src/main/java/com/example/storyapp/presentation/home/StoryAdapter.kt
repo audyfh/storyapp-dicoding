@@ -23,6 +23,7 @@ class StoryAdapter :
         fun bind(story: StoryEntity) {
             with(binding) {
                 tvTitle.text = story.name
+                tvDesc.text = story.description
                 ivStory.load(story.photoUrl) {
                     crossfade(true)
                 }

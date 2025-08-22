@@ -5,22 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.LoadType
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import androidx.paging.RemoteMediator
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.example.storyapp.DataDummy
 import com.example.storyapp.MainDispatcherRule
 import com.example.storyapp.data.local.entity.StoryEntity
-import com.example.storyapp.data.network.repository.StoryPagingSource
 import com.example.storyapp.data.network.repository.StoryRepository
 import com.example.storyapp.getOrAwaitValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -46,7 +42,7 @@ class HomeViewModelTest {
     @Test
     fun `when Get Story Should Not Null and Return Data`() = runTest {
         val dummyStories = DataDummy.generateDummyStories()
-        val data: PagingData<StoryEntity> = com.example.storyapp.presentation.home.StoryPagingSource.snapshot(dummyStories)
+        val data: PagingData<StoryEntity> = StoryPagingSource.snapshot(dummyStories)
         val expectedStories = MutableLiveData<PagingData<StoryEntity>>()
         expectedStories.value = data
         Mockito.`when`(storyRepository.getAllStory()).thenReturn(expectedStories)

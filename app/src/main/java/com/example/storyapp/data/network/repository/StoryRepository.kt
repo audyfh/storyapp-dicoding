@@ -14,6 +14,7 @@ import com.example.storyapp.data.network.model.LoginRequest
 import com.example.storyapp.data.network.model.LoginResult
 import com.example.storyapp.data.network.model.RegisterRequest
 import com.example.storyapp.data.network.model.Story
+import com.example.storyapp.util.EspressoIdlingResource
 import com.example.storyapp.util.PreferencesManager
 import com.example.storyapp.util.Resource
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,6 +32,8 @@ class StoryRepository @Inject constructor(
     private val storyDatabase: StoryDatabase,
     @ApplicationContext private val context: Context
 ) {
+    val token = PreferencesManager.getToken(context) ?: ""
+    val auth = "Bearer $token"
 
     @OptIn(ExperimentalPagingApi::class)
     fun getAllStory(): LiveData<PagingData<StoryEntity>> {
@@ -49,9 +52,26 @@ class StoryRepository @Inject constructor(
        ).liveData
     }
 
+    suspend fun getAllStoryWithMaps(): Resource<List<Story>> {
+        try {
+            val data = apiService.getAllStoryWithMaps(
+                token = auth
+            )
+            return if (data.isSuccessful) {
+                if (data.body()?.listStory != null) {
+                    Resource.Success(data.body()?.listStory)
+                } else {
+                    Resource.Error("Tidak ada data")
+                }
+            } else {
+                Resource.Error(data.message())
+            }
+        } catch (e: Exception) {
+            return Resource.Error(e.message)
+        }
+    }
+
     fun getDetailStory(id: String): Flow<Resource<Story>> {
-        val token = PreferencesManager.getToken(context) ?: ""
-        val auth = "Bearer $token"
         return flow {
             emit(Resource.Loading())
             try {
@@ -77,27 +97,35 @@ class StoryRepository @Inject constructor(
     fun login(
         email: String,
         password: String
-    ): Flow<Resource<LoginResult>> {
+    ): Flow<Resource<LoginResult>> = flow {
+        // 1. Increment the Idling Resource BEFORE the network call starts
+        EspressoIdlingResource.increment()
+
         val loginRequest = LoginRequest(
             email = email,
             password = password
         )
-        return flow {
-            emit(Resource.Loading())
-            try {
-                val data = apiService.login(request = loginRequest)
-                if (data.isSuccessful) {
-                    val token = data.body()?.loginResult?.token
-                    if (token != null) {
-                        PreferencesManager.saveToken(context, token)
-                    }
-                    emit(Resource.Success(data.body()?.loginResult))
-                } else {
-                    emit(Resource.Error(msg = data.body()?.message))
+
+        try {
+            emit(Resource.Loading()) // Emit Loading state
+
+            val data = apiService.login(request = loginRequest) // This is the asynchronous call
+
+            if (data.isSuccessful) {
+                val token = data.body()?.loginResult?.token
+                if (token != null) {
+                    PreferencesManager.saveToken(context, token)
                 }
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message))
+                emit(Resource.Success(data.body()?.loginResult))
+            } else {
+                emit(Resource.Error(msg = data.body()?.message))
             }
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message))
+        } finally {
+            // 2. Decrement the Idling Resource AFTER the network call completes (success or failure)
+            // This ensures Espresso waits until the operation is truly finished.
+            EspressoIdlingResource.decrement()
         }
     }
 
@@ -132,8 +160,6 @@ class StoryRepository @Inject constructor(
         lat: Float? = null,
         lon: Float? = null
     ): Flow<Resource<String>> {
-        val token = PreferencesManager.getToken(context) ?: ""
-        val auth = "Bearer $token"
         val descPart = description.toRequestBody("text/plain".toMediaType())
         val imageRequestBody = imageFile.asRequestBody("image/jpeg".toMediaType())
         val imagePart = MultipartBody.Part.createFormData(
@@ -156,7 +182,12 @@ class StoryRepository @Inject constructor(
                 )
 
                 if (data.isSuccessful) {
-                    emit(Resource.Success(data.message()))
+                    val body = data.body()
+                    if (body != null && !body.error) {
+                        emit(Resource.Success(body.message))
+                    } else {
+                        emit(Resource.Error(body?.message ?: "Unknown error"))
+                    }
                 } else {
                     emit(Resource.Error(data.message()))
                 }

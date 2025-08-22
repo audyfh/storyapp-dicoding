@@ -22,5 +22,9 @@
     <string name="story_image">story image</string>
     <string name="story_title">Story Title</string>
     <string name="halo_user">Hello User</string>
-    <string name="retry">Retry</string>"
+    <string name="retry">Retry</string>
+    <string name="add_location">Add Location</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="view_map">View Map</string>
+    <string name="maps_error">Something wrong, try again later</string>"
 </resources>

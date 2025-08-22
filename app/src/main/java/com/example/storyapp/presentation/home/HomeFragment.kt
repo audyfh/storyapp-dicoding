@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.storyapp.R
 import com.example.storyapp.databinding.FragmentHomeBinding
 import com.example.storyapp.presentation.auth.LoginActivity
 import com.example.storyapp.util.PreferencesManager
@@ -112,6 +113,10 @@ class HomeFragment : Fragment() {
 
             btnRetry.setOnClickListener {
                 this@HomeFragment.adapter.retry()
+            }
+
+            btnMap.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_mapsActivity)
             }
         }
     }
