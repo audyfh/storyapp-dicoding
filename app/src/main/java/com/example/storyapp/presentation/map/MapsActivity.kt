@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.example.storyapp.databinding.ActivityMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import dagger.hilt.android.AndroidEntryPoint

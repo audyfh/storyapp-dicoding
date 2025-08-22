@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.storyapp.data.network.model.Story
 import com.example.storyapp.data.network.repository.StoryRepository
 import com.example.storyapp.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
